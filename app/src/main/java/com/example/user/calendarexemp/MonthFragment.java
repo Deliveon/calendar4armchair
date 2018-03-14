@@ -3,6 +3,7 @@ package com.example.user.calendarexemp;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,14 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Calendar;
 
-/*
-*  Фрагмент в котором содержится вывод одного месяца
-*/
+import static android.support.v4.content.ContextCompat.startActivity;
+
+
+//  Фрагмент в котором содержится вывод одного месяца
 public class MonthFragment extends Fragment {
     Context context;
     GridView gvMonth;
@@ -27,7 +32,8 @@ public class MonthFragment extends Fragment {
     String[] data2 = new String[42];
     Utils utils;
     int page;
-    int[] countDayOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int year = 2018;
+    //int[] countDayOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
@@ -117,7 +123,10 @@ public class MonthFragment extends Fragment {
         Log.d("MyLog","date  " + (page < 10 ? String.format("01-0%s-2018", page)
                 : String.format("01-%s-2018", page)));
         Log.d("MyLog","dayOfWeek " + String.valueOf(dayOfWeek));
-        int dayOfMonth = countDayOfMonth[page-1];
+
+        //получение количества дней в месяце
+        int dayOfMonth = utils.getNumberOfDaysInMonth(year, page-1, 1);
+//        int dayOfMonth = countDayOfMonth[page-1];
         int j = 1;
         for (int i = dayOfWeek; i < dayOfMonth + dayOfWeek; i++) {
             data[i] = String.valueOf(j);
@@ -131,10 +140,25 @@ public class MonthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.fragment_month, container, false);
-        Adapter adapter = new Adapter(context, data, data1, data2);
+        MonthAdapter adapter = new MonthAdapter(context, data, data1, data2);
         gvMonth = (GridView) result.findViewById(R.id.gvMonth);
         gvMonth.setAdapter(adapter);
+
+        //слушатель нажатия на число месяца
+        gvMonth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(context, data[position].toString(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, DayScheduleActivity.class);
+                intent.putExtra("day",Integer.valueOf(data[position]));
+                intent.putExtra("month",page);
+                intent.putExtra("year",year);
+                startActivity(intent);
+            }
+        });
         adjustGridView();
+
 
         return result;
     } // onCreateView

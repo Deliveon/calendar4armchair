@@ -1,5 +1,6 @@
 package com.example.user.calendarexemp;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -40,25 +41,9 @@ public class MainActivity extends AppCompatActivity {
         tvMonthTitle = findViewById(R.id.tvMonthTitle);
         imageButton = findViewById(R.id.imageButton);
         imageButton2 = findViewById(R.id.imageButton2);
-//        Arrays.fill(data,"");
-//        Arrays.fill(data1,"");
-//        Arrays.fill(data2,"");
-//        int j = 1;
-//        for (int i = 5; i < 36; i++) {
-//            data[i] = String.valueOf(j);
-//            data1[i] = "00:00";
-//            data2[i] = "4";
-//            j++;
-//        }
 
         //создаем экземпляр объекта MonthFragment
         monthFragment = new MonthFragment();
-//        Bundle args = new Bundle();    // объект для передачи параметров в диалог
-//        //передаем данные об  авторизированном пользователе
-//        args.putStringArray("data", data);
-//        args.putStringArray("data1", data1);
-//        args.putStringArray("data2", data2);
-//        monthFragment.setArguments(args);
 
         vpMain = (ViewPager) findViewById(R.id.vpMain);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());

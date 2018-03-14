@@ -6,10 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by User on 02.02.2018.
- */
-
 public class Utils {
 
     //получение даты из String в формате "dd-MM-yyyy"
@@ -27,5 +23,17 @@ public class Utils {
         Calendar c = Calendar.getInstance();
         c.setTime(yourDate);
         return c.get(Calendar.DAY_OF_WEEK);
-    }
+    }//getDayOfWeek
+
+    //получение количества дней в месяце
+    public int getNumberOfDaysInMonth(int year, int month, int date) {
+        Calendar myCalendar = (Calendar) Calendar.getInstance().clone();
+        myCalendar.set(year, month, date);
+        return myCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }//getNumberOfDaysInMonth
+
+    //преобразование из минут(int) в часы(String)
+    public String convertTime(int min) {
+        return (min/60 < 10 ? "0" + String.valueOf(min/60) : String.valueOf(min/60)) + ":00";
+    }//getNumberOfDaysInMonth
 }
